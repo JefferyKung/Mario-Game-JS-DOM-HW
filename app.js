@@ -20,7 +20,9 @@ function isTouching(a, b) {
 
 const init = () => {
     //get the avatar
+    const avatar = document.querySelector("#avatar")
     //get the coin
+    const coin = document.querySelector("#coin")
 
     moveCoin();
 
@@ -32,8 +34,10 @@ const init = () => {
             moveVertical(avatar, -50);
         }if(e.key === 'ArrowLeft' || e.key === 'Left'){
             moveHorizontal(avatar, -50);
+            avatar.style.transform = "scale(-1,1)"
         }if(e.key === 'ArrowRight' || e.key === 'Right'){
             moveHorizontal(avatar, 50);
+            avatar.style.transform = "scale(1,1)"
         }
 
         if(isTouching(avatar,coin))moveCoin();
@@ -47,12 +51,20 @@ const init = () => {
 
 const moveVertical = (element, amount) => {
     const currTop = extractPos(element.style.top);
-    element.style.top = `${currTop + amount}px`;
+
+    if(currTop + amount < window.innerHeight -100 && currTop+ amount>= 0){
+        element.style.top = `${currTop + amount}px`;
+    }
+    
 }
 
 const moveHorizontal = (element, amount) => {
-    const currleft = extractPos(element.style.left);
-    element.style.left = `${currleft + amount}px`;
+    const currLeft = extractPos(element.style.left);
+
+    if(currLeft + amount < window.innerWidth -100 && currLeft+ amount>= 0){
+        element.style.left = `${currLeft + amount}px`;
+    }
+    
 }
 
 const extractPos = (position) => {
@@ -62,10 +74,10 @@ const extractPos = (position) => {
 
 const moveCoin = () => {
     const x = Math.floor(Math.random() * window.innerWidth)
-    const y = Math.floor(Math.random() * window.innerWidth)
+    const y = Math.floor(Math.random() * window.innerHeight)
     // const y = ?
-    coin.style.top = `${x}px`;
-    coin.style.left = `${y}px`;
+    coin.style.top = `${y-100}px`;
+    coin.style.left = `${x-100}px`;
     // coin.style.?? = ??
     score+=1;
     console.log(score);
